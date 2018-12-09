@@ -149,7 +149,7 @@ def convert_from_twitter_graph_to_google_graph(twitter_graphs_from_same_search):
         search_terms = parse_search_text(all_tweet_search_terms)            # list of search terms, ['cat', 'dog']
 
         graph_contribution = [particular_search_term, num_distinct_tweets]  # ['cat', 56]  if there were 56 tweets containing 'cat'
-        google_graph_data.append(graph_contribution)                        # [['cat', 56], ['dog', 35]]
+        google_graph_data.append(graph_contribution)                        # [['cat', 56], ['dog', 35], ['panda', 6]]
 
         search_term_to_tweets_dict[particular_search_term] = text_list      # this_dict['cat'] = list of tweets containing cat
 
