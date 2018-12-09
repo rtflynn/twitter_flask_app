@@ -1,0 +1,121 @@
+<html>
+  <head>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        {% for graph in twitter_graphs    %}
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Tweet Keyword');
+        data.addColumn('number', 'Count');
+        //data.addRows([['Mushrooms', 3],['Onions', 1],['Olives', 1],['Zucchini', 1],['Pepperoni', 2]]);
+        data.addRows({{graph[0] | safe}});
+
+
+      //  var options = { tooltip: { trigger: 'selection' }};
+
+        var options = {'title':'Tweet Content: {{graph[3]}}',
+                       'width':400,
+                       'height':300 };
+
+        //var chart = new google.visualization.PieChart(document.getElementById("{{graph[3] | safe}}"));
+        var {{graph[4] | safe }} = new google.visualization.PieChart(document.getElementById("{{graph[3] | safe}}"));
+        /// temp
+
+        var options = { tooltip: { trigger: 'selection' }};
+
+
+        {{graph[4] | safe }}.setAction({       // The charts need distinct names - otherwise the tooltip events only work for the last chart created.
+                                               // (It gets overwritten on each pass through the loop, which we don't want.)
+
+          id: '{{graph[3] | safe}}',
+          text: 'See tweets',
+          action: function() {
+            selection = {{graph[4] | safe }}.getSelection();
+
+            // I'd like to get rid of the switch in favor of something like:
+            // var x = selection[0].row
+            // alert('{% for tweet_text in graph[5][graph[2][x]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+            // But javascript doesn't have integers?? x can't be an index??
+            switch (selection[0].row) {
+              case 0: alert('{% for tweet_text in graph[5][graph[2][0]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 1: alert('{% for tweet_text in graph[5][graph[2][1]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 2: alert('{% for tweet_text in graph[5][graph[2][2]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 3: alert('{% for tweet_text in graph[5][graph[2][3]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 4: alert('{% for tweet_text in graph[5][graph[2][4]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 5: alert('{% for tweet_text in graph[5][graph[2][5]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 6: alert('{% for tweet_text in graph[5][graph[2][6]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 7: alert('{% for tweet_text in graph[5][graph[2][7]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 8: alert('{% for tweet_text in graph[5][graph[2][8]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 9: alert('{% for tweet_text in graph[5][graph[2][9]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 10: alert('{% for tweet_text in graph[5][graph[2][10]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+              case 11: alert('{% for tweet_text in graph[5][graph[2][11]] %} {{tweet_text}} \n\n {% endfor %}'); break;
+            }
+          }
+        });
+
+
+
+
+
+
+
+
+        /// end temp
+        //chart.draw(data, options);
+        {{graph[4] | safe }}.draw(data, options);
+        {% endfor %}
+
+
+      }
+
+
+
+
+    </script>
+
+  </head>
+
+  <body>
+This small app searches current tweets for specific keywords (say, 'cat' and 'dog') and collects those (distinct) tweets containing one or more of these keywords.  It then throws this information into a Google Chart.  Clicking on a wedge of the chart allows you to see what those particular tweets are.  Retweets of a given tweet contribute to the tweet counts (as long as they're occuring right now), but only distinct tweets are shown in the click view.  For this reason, often the largest slice of the pie has the fewest associated tweets!
+<br><br>
+This data is saved on a server and all graphs are shown on one page.  Scroll to the bottom of the page to enter your own search terms and create a new graph!  Note that since the search is in real time, it may take a few moments to populate a new chart.
+<br><br>
+This was a learning exercise.  Before building this app, I had no knowledge of SQL, Flask, JSON, Jinja2, the Twitter API, Google Charts, and various smaller details which arose in the process.  For example, I was very surprised to find out that Javascript does not have integers as a primitive data type!  It does, however, have Python-style dictionaries, which is one way to get around this strange limitation.
+<br><br>
+This app also forced me to think about design at several levels to limit complexity.  Besides a few Unity and TensorFlow projects, this project has more moving parts than just about anything else I've done up to this point.  Using git was a big help here.
+<br><br>
+
+
+
+
+
+      {% for graph in twitter_graphs %}
+    <!--Div that will hold the pie chart-->
+    <center>
+    <div id="{{graph[3] | safe}}"></div>
+    </center>
+
+
+    {% endfor %}
+
+
+<br><br><br><br><br><br>
+
+    <div>
+        Enter your own search terms here, separated by commas (e.g. 'apple, banana, cucumber', but without the quotes).<br><br>
+        Be sure to include at least one term that's likely to have people tweeting about it, or you could end up waiting here a while!
+            <form action="." method="POST">
+                <textarea name="search_form_entry" placeholder="cat, dog"></textarea>
+                <input type="submit" value="Let's go!">
+            </form>
+        </div>
+
+  </body>
+</html>
