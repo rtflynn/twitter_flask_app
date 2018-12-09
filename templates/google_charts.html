@@ -7,33 +7,24 @@
       google.charts.load('current', {'packages':['corechart']});
       google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
 
+      function drawChart() {
         {% for graph in twitter_graphs    %}
 
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Tweet Keyword');
         data.addColumn('number', 'Count');
-        //data.addRows([['Mushrooms', 3],['Onions', 1],['Olives', 1],['Zucchini', 1],['Pepperoni', 2]]);
         data.addRows({{graph[0] | safe}});
-
-
-      //  var options = { tooltip: { trigger: 'selection' }};
 
         var options = {'title':'Tweet Content: {{graph[3]}}',
                        'width':400,
-                       'height':300 };
+                       'height':300,
+                       tooltip: { trigger: 'selection' }};
 
-        //var chart = new google.visualization.PieChart(document.getElementById("{{graph[3] | safe}}"));
         var {{graph[4] | safe }} = new google.visualization.PieChart(document.getElementById("{{graph[3] | safe}}"));
-        /// temp
-
-        var options = { tooltip: { trigger: 'selection' }};
-
 
         {{graph[4] | safe }}.setAction({       // The charts need distinct names - otherwise the tooltip events only work for the last chart created.
                                                // (It gets overwritten on each pass through the loop, which we don't want.)
-
           id: '{{graph[3] | safe}}',
           text: 'See tweets',
           action: function() {
@@ -61,14 +52,6 @@
         });
 
 
-
-
-
-
-
-
-        /// end temp
-        //chart.draw(data, options);
         {{graph[4] | safe }}.draw(data, options);
         {% endfor %}
 
@@ -91,17 +74,16 @@ This was a learning exercise.  Before building this app, I had no knowledge of S
 <br><br>
 This app also forced me to think about design at several levels to limit complexity.  Besides a few Unity and TensorFlow projects, this project has more moving parts than just about anything else I've done up to this point.  Using git was a big help here.
 <br><br>
-
+You can find the code for this project at https://github.com/rtflynn/twitter_flask_app .
+<br><br><br><br><br><br><br>
 
 
 
 
       {% for graph in twitter_graphs %}
     <!--Div that will hold the pie chart-->
-    <center>
-    <div id="{{graph[3] | safe}}"></div>
-    </center>
 
+    <div style="display: inline-block" id="{{graph[3] | safe}}"></div>
 
     {% endfor %}
 
