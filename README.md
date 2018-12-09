@@ -3,3 +3,13 @@ This app was created as a programming exercise as well as an excuse to learn abo
 
 I've hosted the app on a webpage at pythonanywhere.com:  http://rtflynn.pythonanywhere.com/ .  Feel free to check it out and play around with it.  Pythonanywhere turned out to be a very nice tool for this project - it offers free databases and in-browser terminals and an intuitive UI for moving back and forth between the various components of a project like this.  
 
+
+Here's what the charts look like:
+<br><br><br>
+![Pie Charts](/Images/pie_charts.png)
+<br><br><br><br>
+
+And here's what you see if you click on the 'dog' wedge of the first pie chart:
+<br><br><br><br>
+
+![Sample Tweets for 'dog'](/Images/tweet_texts_dog.png)
