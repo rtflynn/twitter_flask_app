@@ -1,7 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from twitter_listener import get_tweets
-from datetime import datetime
 
 app = Flask(__name__)
 app.config["debug"] = True
